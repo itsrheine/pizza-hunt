@@ -22,7 +22,8 @@ const ReplySchema = new Schema({
         toJSON: {
             getters: true
         }
-    });
+    }
+);
 
 const CommentSchema = new Schema({
     writtenBy: {
@@ -38,12 +39,17 @@ const CommentSchema = new Schema({
     },
     replies: [ReplySchema]
 },
-{
-    toJSON: {
-        virtuals: true,
-        getters: true
-    },
-    id: false
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true
+        },
+        id: false
+    }
+);
+
+CommentSchema.virtual('replyCount').get(function() {
+    return this.replies.length;
 });
 
 const Comment = model('Comment', CommentSchema);
